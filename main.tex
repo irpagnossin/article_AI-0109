@@ -1,27 +1,31 @@
-% Encoding: UTF-8
+% Encoding: UTF-8 (UNIX line breaks)
 % Author: Ivan Ramos Pagnossin
 
 \documentclass{article}
 	\usepackage[utf8]{inputenc}
 	\usepackage[T1]{fontenc}
 	\usepackage[english,brazil]{babel}
+	\usepackage{sbc-template}
 	%\usepackage{paralist}
 	\usepackage{url}
 	\usepackage{amsmath}
 	\usepackage{graphicx}
 
 \title{Sistema multi-agentes em atividades colabor ativas sobr eempirismo nas ciências}
+\author{Ivan R. Pagnossin\inst{1}, Arthur Tofani\inst{2}, Gil da C. Marques\inst{1}}
+
+\address{
+	Centro de Ensino e Pesquisa Aplicada --- Instituto de Física da Universidade de São Paulo\\
+	Rua do Matão, travessa R nº 187, Edifício Van de Graaf\\
+	Cidade Universitária, CEP 05508-090, São Paulo, Brasil
+\nextinstitute
+	Instituto de Matemática e Estatística
+\email{irpagnossin@usp.br, arthur.tofani@usp.br, marques@if.usp.br}
+}
 
 \begin{document}
 
-
-Ivan R. Pagnossin 1, Ar thur Tofani1 e Gil da C. Mar ques1
-1Departamento de Física Experimental do
-Instituto de Física da Universidade de São Paulo
-Rua do Matão, travessa R nº 187, Edifício Van de Graaf
-Cidade Universitária, CEP 05508-090, São Paulo, Brasil
-
-irpagnossin@usp.br, arthur.tofani@usp.br, marques@if.usp.br
+\maketitle
 
 \selectlanguage{english}
 \begin{abstract}
@@ -39,7 +43,7 @@ and some preliminary qualitative results of its application in the undergraduati
 
 \selectlanguage{brazil}
 \begin{abstract}
-Resumo. Neste trabalho nós apresentamos um objeto de aprendizagem (OA) colaborativo baseado em sistemas multi-agentes (SMA),
+Neste trabalho nós apresentamos um objeto de aprendizagem (OA) colaborativo baseado em sistemas multi-agentes (SMA),
 desenvolvido com o propósito de evidenciar o empirismo como base das ciências (através do método científico).
 Apresentamos também a proposta de aplicação deste OA em Ambientes Virtuais de Aprendizagem e os primeiros resultados qualitativos
 observados, decorrentes de sua aplicação no curso de Eletromagnetismo (PLC0012 do sistema Júpiter) da graduação em
@@ -103,28 +107,28 @@ mesmo), rotinas de raciocínio, nas quais o agente toma decisões baseadas nos e
 recebidos pelos sensores, e rotinas de ação, onde de acordo com suas heurísticas de
 raciocínio, o agente pode produzir informação dentro do sistema onde está inserido.
 
-Pela definição de Reis (2002), “um agente é um sistema computacional, situado
+Pela definição de \cite{reis-2002}, ``um agente é um sistema computacional, situado
 num dado ambiente, que tem a percepção desse ambiente através de sensores, tem
 capacidade de decisão, age de forma autônoma nesse ambiente através de atuadores, e
 possui capacidades de comunicação de alto nível com outros agentes e/ou humanos, de
-forma a desempenhar uma dada função para a qual foi projetado. O diagrama
-apresentado por Thomaz (2011), baseado na generalização de diversos outros trabalhos,
+forma a desempenhar uma dada função para a qual foi projetado''. O diagrama
+apresentado por \cite{Thomaz-2011}, baseado na generalização de diversos outros trabalhos,
 ilustra a arquitetura de um agente da maneira como foi utilizada para este trabalho:
 
 \begin{figure}
 	\centering
 	%\includegraphics[width=0.9\textwidth]{figures/mas}
 	\caption{Diagrama esquemático de um agente}
-	\label{fig:mas-scheme}
+	\label{fig:mas}
 \end{figure}
 
 A arquitetura de sistemas multi-agentes tem se mostrado bastante poderosa,
-sobretudo por adequar-se a técnicas de processamento paralelo e computação em
-nuvem. No entanto, sua grande contribuição está em produzir resultados dificilmente
+sobretudo por adequar-se a técnicas de processamento paralelo e computação em nuvem.
+No entanto, sua grande contribuição está em produzir resultados dificilmente
 alcançados em sistemas monolíticos, onde o controle de todos os elementos é
 centralizado. O processamento dos raciocínios e ações se dá por escalonamento em
 turnos, uma vez que a aplicação trabalha com single-thread, conforme a proposta de
-Behrens para sistemas multi-agentes em ambientes de jogos virtuais, onde necessita-se
+\cite{behrens-2010} para sistemas multi-agentes em ambientes de jogos virtuais, onde necessita-se
 com frequência controlar a taxa de amostragem dos acontecimentos.
 De acordo com a proposta deste objeto de aprendizagem, o aluno deve ser capaz
 de observar as interações correntes entre elementos em um mundo hipotético que lhe
@@ -143,7 +147,7 @@ combinações genéticas, a relação entre pressão, temperatura e volume, etc)
 O ambiente deste sistema foi criado no formato de um tabuleiro, supondo que as peças
 só podem andar em quatro sentidos (cima, baixo, esquerda, direita), sobre as linhas
 deste tabuleiro, com um modelo de agente que atende às seguintes características
-físicas: (1) for ma poligonal, podendo assumir uma entre três formas possíveis:
+físicas: (1) forma poligonal, podendo assumir uma entre três formas possíveis:
 triângulo, quadrado ou pentágono, (2) cor , podendo assumir as cores verde, azul e roxa,
 (3) r otação no pr ópr io eixo, que pode ou não ocorrer no agente.
 
@@ -155,21 +159,16 @@ deverá buscar uma nova direção livre para continuar caminhando, de acordo com
 ordem de “preferências”, determinada pela característica de cor do agente neste
 momento, conforme a tabela:
 
-Tabela 1. Movimentação dos agentes segundo suas cores
-
-Cor do agente Preferências de movimentação
-
-Azul
-
-Verde
-
-Roxo
-
-Direita, Esquerda
-
-Cima, Baixo
-
-Cima, Esquerda, Baixo, Direita
+\begin{table}
+	\caption{Movimentação dos agentes segundo suas cores}
+	\label{tab:cor-vs-movimentacao}
+	\begin{tabular}{ll}
+		Cor do agente & Preferências de movimentação \\
+		Azul          & Direita, esquerda \\
+		Verde         & Cima, baixo \\
+		Roxo          & Direita, esquerda, cima, baixo
+	\end{tabular}
+\end{table}
 
 No caso da colisão entre dois agentes, suas características são modificadas de
 acordo com o seguinte algoritmo:
@@ -238,16 +237,7 @@ similar, que poderá ser utilizado na introdução de um curso de Mecânica Quâ
 Há também modificações na metodologia da análise dos resultados dos alunos, mas
 deixaremos isto para um meio de divulgação mais apropriado.
 
-\section{Referências}
-
-Reis, L. P., “Agentes autónomos”, LIACC (NIAD\&R) – Research Report, Março de
-2002.
-
-Thomaz, L. F., “Um aracabouço para construção de sistemas multi-agentes musiais
-[online]”. São Paulo: Instituto de Matemática e Estatística, Universidade de São
-Paulo, 2011. Tese de Doutorado em Ciências da Computação. [acesso 2011-10-26].
-
-Behrens, T. M., “Agent-Oriented Control in Real-Time Computer Games”. In
-proceedings of PROMAS’2009. pp. 266-283.
+\bibliographystyle{sbc}
+\bibliography{computation}
 
 \end{document}
