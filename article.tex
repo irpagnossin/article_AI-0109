@@ -2,6 +2,7 @@
 % Author: Ivan Ramos Pagnossin
 
 \documentclass{article}
+	%\usepackage[latin1]{inputenc}
 	\usepackage[utf8]{inputenc}
 	\usepackage[T1]{fontenc}
 	\usepackage[english,brazil]{babel}
@@ -11,15 +12,13 @@
 	\usepackage{amsmath}
 	\usepackage{graphicx}
 
-\title{Sistema multi-agentes em atividades colabor ativas sobr eempirismo nas ciências}
-\author{Ivan R. Pagnossin\inst{1}, Arthur Tofani\inst{2}, Gil da C. Marques\inst{1}}
+\title{Sistema multi-agentes em atividades colaborativas sobre empirismo nas ciências}
+\author{Ivan R. Pagnossin\inst{1}, Arthur Tofani\inst{1}, Gil da C. Marques\inst{1}}
 
 \address{
 	Centro de Ensino e Pesquisa Aplicada --- Instituto de Física da Universidade de São Paulo\\
 	Rua do Matão, travessa R nº 187, Edifício Van de Graaf\\
 	Cidade Universitária, CEP 05508-090, São Paulo, Brasil
-\nextinstitute
-	Instituto de Matemática e Estatística
 \email{irpagnossin@usp.br, arthur.tofani@usp.br, marques@if.usp.br}
 }
 
@@ -61,8 +60,8 @@ mas é comumente transmitida aos alunos das áreas das ciências de forma indire
 usualmente agregada a práticas de laboratório em diversas disciplinas, como Física,
 Química e Biologia. Seu estudo isolado dos contextos já familiares aos alunos, por outro
 lado, é potencialmente desestimulante e de difícil absorção. Além disso, a indissociação
-deste conceito às práticas de laboratório tem apresentado efeitos colaterais sutís,
-como a usual incompreensão de que o termo carga elétrica, por exemplo, refere-se
+deste conceito às práticas de laboratório tem apresentado efeitos colaterais sutis,
+como a usual incompreensão de que o termo \emph{carga elétrica}, por exemplo, refere-se
 apenas a uma atribuição convenientemente introduzida para explicar os fenômenos do
 eletromagnetismo.
 
@@ -71,7 +70,6 @@ eletromagnetismo.
 Sua necessidade apareceu na proposta do curso de Eletromagnetismo do curso de Lic.
 em Ciências do convênio USP-UNIVESP, quando o Prof. Dr. Gil da Costa Marques,
 autor do curso, propôs conduzir a didática do curso através de uma outra abordagem,
-
 tendo a carga como sendo o atributo da matéria de maior relevância (e não o campo
 eletromagnético). A carga, porém, é um atributo meramente teórico oriundo unicamente
 da observação do comportamento da matéria, obtido portanto por meio do empirismo –
@@ -128,8 +126,7 @@ No entanto, sua grande contribuição está em produzir resultados dificilmente
 alcançados em sistemas monolíticos, onde o controle de todos os elementos é
 centralizado. O processamento dos raciocínios e ações se dá por escalonamento em
 turnos, uma vez que a aplicação trabalha com single-thread, conforme a proposta de
-\cite{behrens-2010} para sistemas multi-agentes em ambientes de jogos virtuais, onde necessita-se
-com frequência controlar a taxa de amostragem dos acontecimentos.
+\cite{behrens-2010} para sistemas multi-agentes em ambientes de jogos virtuais.
 De acordo com a proposta deste objeto de aprendizagem, o aluno deve ser capaz
 de observar as interações correntes entre elementos em um mundo hipotético que lhe
 será apresentado. A decisão de desenvolver este dispositivo baseado na arquitetura de
@@ -142,14 +139,14 @@ variação do mesmo objeto de aprendizagem, que utilizando a mesma estrutura pod
 vir a ilustrar algum fenômeno real (atração e repulsão de cargas eletromagnéticas,
 combinações genéticas, a relação entre pressão, temperatura e volume, etc).
 
-\section{Aplicação do OA}
+\section{Planejamento do ``mundo virtual''}
 
 O ambiente deste sistema foi criado no formato de um tabuleiro, supondo que as peças
 só podem andar em quatro sentidos (cima, baixo, esquerda, direita), sobre as linhas
 deste tabuleiro, com um modelo de agente que atende às seguintes características
 físicas: (1) forma poligonal, podendo assumir uma entre três formas possíveis:
 triângulo, quadrado ou pentágono, (2) cor , podendo assumir as cores verde, azul e roxa,
-(3) r otação no pr ópr io eixo, que pode ou não ocorrer no agente.
+(3) rotação no próprio eixo, que pode ou não ocorrer no agente.
 
 Os raciocínios dos agentes são relacionados à sua movimentação apenas.
 Axiomaticamente, as peças não podem ocupar o mesmo espaço no tabuleiro. O
@@ -157,19 +154,25 @@ raciocínio geral para todos os agentes diz que eles devem buscar manter inerte 
 e o sentido do seu movimento, a menos que algo obstrua seu caminho, situação na qual
 deverá buscar uma nova direção livre para continuar caminhando, de acordo com uma
 ordem de “preferências”, determinada pela característica de cor do agente neste
-momento, conforme a tabela:
+momento, conforme a tabela ~\ref{tab:cor-vs-movimentacao}.
+
+\footnotesize
 
 \begin{table}
-	\caption{Movimentação dos agentes segundo suas cores}
-	\label{tab:cor-vs-movimentacao}
-	\begin{tabular}{ll}
+\begin{center}
+	\begin{tabular}{ll}		
 		Cor do agente & Preferências de movimentação \\
+		\hline \hline
 		Azul          & Direita, esquerda \\
 		Verde         & Cima, baixo \\
 		Roxo          & Direita, esquerda, cima, baixo
 	\end{tabular}
+	\caption{Movimentação dos agentes segundo suas cores}
+	\label{tab:cor-vs-movimentacao}
+\end{center}
 \end{table}
 
+\normalsize
 No caso da colisão entre dois agentes, suas características são modificadas de
 acordo com o seguinte algoritmo:
 
@@ -188,13 +191,16 @@ $a_2$: Quadrado roxo, girando. % TODO: melhorar esse exemplo
 
 \section{Aplicação do OA}
 
-O objeto de aprendizagem mundo virtual foi apresentado como parte das atividades
-a distância das três primeiras semanas do curso de Eletromagnetismo. Ele e o fórum
-comunidade científica foram disponibilizados aos alunos através do LMS (Learning
-Management System) Moodle (\url{licenciaturaciencias.usp.br}). Coube aos tutores orientar
-os alunos em suas observações e estruturação do conhecimento construído, e a nós,
-acompanhar o fórum, como observadores apenas, para sugerir ações específicas e dar o
-suporte pedagógico e técnico aos tutores quando necessário.
+O objeto de aprendizagem foi apresentado aos alunos através do LMS (\emph{Learning
+Management System}) Moodle (\url{licenciaturaciencias.usp.br}) como parte das atividades das três primeiras semanas do curso de Eletromagnetismo. 
+
+A atividade consiste em o aluno observar o comportamento dos elementos presentes no mundo virtual e tentar descrever, no fórum associado à atividade, 
+o que ele observa. Clicando sobre os agentes, o aluno pode movê-los e soltá-los livremente no cenário. Na lateral direita do mundo virtual há um espaço 
+definido como \emph{laboratório}, onde o aluno pode isolar agentes para verificar seu comportamento. Colaborativamente, os alunos discutem no fórum
+as observações feitas, cabendo aos tutores orientar e organizar o conhecimento construído, buscando que os alunos extraiam de suas observações 
+a proposição de um modelo científico capaz de traduzir os fenômenos ocorrentes naquele sistema. Ademais, o tutor deve conduzir os alunos no 
+refinamento deste modelo, na intenção de que o aluno, na medida do possível, decifre as regras de produção daquele comportamento. 
+
 
 \section{Resultados}
 
